@@ -36,9 +36,9 @@ This is executable bash script. You can try run it modified or as is on other Un
 
 # Feedback   
 Send me email if:   
-You find any problems with this script.   
-For addition of other free OpenVPN services.   
-You need similar script.   
+* You find any problems with this script.   
+* For addition of other free OpenVPN services.   
+* You need similar script.   
 
 Email:seba.bandur@gmail.com   
 
