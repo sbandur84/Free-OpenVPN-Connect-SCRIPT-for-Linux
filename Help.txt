@@ -1,0 +1,10 @@
+OPTION DESCRIPTION:
+"Profile"	Select profile from list
+"Connect"	Connect to selected profile
+"Download"	Download free VPN profiles
+"Remove"	Remove all profiles
+"Install"	Install OpenVPN
+"Credits"	Credits and donations
+
+Script automaticaly retrievs passwords fom web.
+Write to seba.bandur@gmail.com for more info and error reporting.
