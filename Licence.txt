@@ -1,4 +1,4 @@
-FreeVPN Connect for Linux – Easy VPN 
+FreeVPN Connect for Linux 
 Copyright (C) 2015  Sebastijan Bandur
 
 This program is free software; you can redistribute it and/or
