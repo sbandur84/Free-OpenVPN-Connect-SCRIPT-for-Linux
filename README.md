@@ -34,13 +34,13 @@ You can establish free VPN connections with nothing but this script from Termina
 * RPM based distributions (not tested)   
 This is executable bash script. You can try run it modified or as is on other Unix-like operating systems. (Linux/BSD/MacOSX/Solaris)    
 
-# Feedback
-Send me email if:
-You find any problems with this script.
-For addition of other free OpenVPN services.
-You need similar script.
+# Feedback   
+Send me email if:   
+You find any problems with this script.   
+For addition of other free OpenVPN services.   
+You need similar script.   
 
-Email:seba.bandur@gmail.com
+Email:seba.bandur@gmail.com   
 
 # Licence
 FreeVPN Connect for Linux 
