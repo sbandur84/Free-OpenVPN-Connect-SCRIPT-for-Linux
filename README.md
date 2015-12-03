@@ -1,12 +1,12 @@
 # Free VPN Connect for Linux
 ## Easy connect to free OpenVPN services with FreeVPNconnect.sh bash script
-You can establish free VPN connections with nothing but this script from Terminal.
-**Functions:**
+**Functions:**   
 * Check for OpenVPN instalation and install
 * Download popular free VPN service profiles
 * Automatic password retreaval from web pages
 * Select downloaded free OpenVPN profile
-* Connect to selected profile
+* Connect to selected profile   
+You can establish free VPN connections with nothing but this script from Terminal    
 
 #Instalation
 * Download latest release   
@@ -39,7 +39,6 @@ Send me email if:
 * You find any problems with this script.   
 * For addition of other free OpenVPN services.   
 * You need similar script.   
-
 Email:seba.bandur@gmail.com   
 
 # Licence
