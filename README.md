@@ -8,7 +8,17 @@ Easy connect to free OpenVPN services with FreeVPNconnect
 * Navigate to extracted folder (Free-VPN-Connect-for-Linux-v1.0)   
 * Make FreeVPNconnection.sh executable (chmod +x FreeVPNconnection.sh)     
 * Run script from Terminal (./FreeVPNconnection.sh)   
-**You must be administrator to establish Connect to VPN**   
+**You must be administrator to establish connection to VPN**   
 
-# Supported services
+# Supported services   
+* [VPNBook](www.VPNBook.com) Please [donate](http://www.vpnbook.com/freevpn) to support this great free VPN service.
+** Supports P2P downloading (EURO1 and EURO2 servers)
+** Ports: TCP 80, TCP 443, UDP 53, UDP 25000
+
+# Supported OS   
+* Debian based Linux   
+* RPM based distributions (not tested)   
+This is executable bash script. You can run it modified or as is on other Unix-like operating systems (Linux/BSD/MacOSX/Solaris)   
+
+
 
