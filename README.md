@@ -41,9 +41,9 @@ Send me email if:
 * You need similar script.   
 Email:seba.bandur@gmail.com   
 
-# Licence
-FreeVPN Connect for Linux   
-Copyright (C) 2015  Sebastijan Bandur   
+# Licence   
+## Free VPN Connect for Linux   
+Copyright (C) 2015 Sebastijan Bandur   
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
