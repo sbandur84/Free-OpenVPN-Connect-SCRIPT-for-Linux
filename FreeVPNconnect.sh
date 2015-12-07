@@ -77,15 +77,14 @@ function DownloadProfile()
 {
 	#current dir
 	DIR=$(pwd)
-	cd $PROFILES_DIR
 	#if profiles dir does not exist create it and enter
-	if [ $? = "1" ]
-	then md $PROFILES_DIR; cd $PROFILES_DIR
+	if [ ! -d "$DIR/$PROFILES_DIR" ]
+	then mkdir "$DIR/$PROFILES_DIR"
 	fi
-
+	cd "$DIR/$PROFILES_DIR"
 	wget $1
 	FILE=$(ls *.zip)
-	unzip -j $FILE
+	unzip -j "$FILE"
 	rm $FILE
 	INFO="Profiles added: $FILE"
 	cd $DIR
@@ -108,12 +107,16 @@ function ClearProfiles()
 #USAGE: UpdatePassword $URL_ $USER_
 function UpdatePassword()
 {
+	URL=$1
+	USERNAME=$2
 	local DIR=$(pwd)
 	## SCRIPT FOR GETTING PASSWORD FROM VPNBOOK - FREE VPN
 	local SAVE_TO="$DIR/$PROFILES_DIR/$PASSWORD_FILE"
-	USERNAME=$2
+	
+	PASSWORD_LINE_PHARSE="Password"
+	
 	## get page with password | find line with pass | get last line | remove white spaces   
-	local PWD=$(wget -T 2 -q -O - "$@" "$1" | grep -n "Password" | tail -1 | tr -d ' ')
+	local PWD=$(wget -T 2 -q -O - "$@" "$url" | grep -n "$PASSWORD_LINE_PHARSE" | tail -1 | tr -d ' ')
 
 	### for PWD we get: 154: <li>Password:<strong>fra4agaV</strong></li>
 	local PWD=${PWD%<*} # remove text after last '<'
@@ -129,7 +132,10 @@ function UpdatePassword()
 	fi
 	
 	PASSWORD=$PWD
-	
+	if [ -f $SAVE_TO ]
+	then rm $SAVE_TO; 
+	fi
+	touch $SAVE_TO
 	echo $USERNAME > $SAVE_TO # replace file and add username to first line
 	echo $PWD >> $SAVE_TO # add password to new line
 }
@@ -145,6 +151,22 @@ function ConnectProfile()
 	else
 		sudo openvpn --config "$DIR/$PROFILES_DIR/$SELECTED_PROFILE" --auth-user-pass "$DIR/$PROFILES_DIR/$PASSWORD_FILE"
 		INFO="Disconnected from $SELECTED_PROFILE";
+	fi
+}
+
+# usage: TestPortOut port tcp/udp / returns 1 if port is open
+function TestPortOut()
+{
+	Port="$1"
+	NC=""
+	if [ "$2" = "udp" ]
+	then netcat -z -u -v 127.0.0.1 $Port &> /dev/null; NC=$?
+	else netcat -z -v 127.0.0.1 $Port &> /dev/null; NC=$?
+	fi
+	
+	if [ $NC -eq 0 ]
+	then return 1 #open
+	else return 0 #closed
 	fi
 }
 
@@ -170,29 +192,34 @@ function MENU_SelectProfile()
 	
 	select opt in $PROFILES; do
 		SELECTED_PROFILE=$opt
-		INFO="New profile selected: $opt"
+		INFO="Profile selected: $opt"
 		break
 	done
-
+	
+	PROVIDER=""
 	VPNBOOK=$(echo $SELECTED_PROFILE | grep -c "vpnbook")
+	if [ $VPNBOOK = "1" ]; then PROVIDER="vpnbook";  fi
+
 	VPNME=$(echo $SELECTED_PROFILE | grep -c "FreeVPN")
+	if [ $VPNME = "1" ]; then PROVIDER="freevpnme";  fi
+
 	VPNKEY=$(echo $SELECTED_PROFILE | grep -c "vpnkeys")
+	if [ $VPNKEY = "1" ]; then PROVIDER="vpnkeys";  fi
+
+
 	echo "WAIT! Reading password from web ..."
 	
 	# update password for selected profile
-	if [ $VPNBOOK = "1" ] 
-	then 
-		UpdatePassword $URL_VPNBOOK $USER_BOOK
-	else 
-		if [ $VPNME = "1" ]
-		then UpdatePassword $URL_FREEVPNME $USER_ME
-		else 
-			if [ $VPNKEY = "1" ]
-			then UpdatePassword $URL_VPNKEYS $USER_KEYS
-			else INFO="No profile selected!"; PASSWORD=""; USERNAME=""; return
-			fi
-		fi
-	fi
+	case "$PROVIDER" in
+		"vpnbook") UpdatePassword $URL_VPNBOOK $USER_BOOK; break
+		;;
+		"freevpnme") UpdatePassword $URL_FREEVPNME $USER_ME; break
+		;;
+		"vpnkeys") UpdatePassword $URL_VPNKEYS $USER_KEYS; break
+		;;
+		*) INFO="No profile selected!"; PASSWORD=""; USERNAME=""; return
+		;;
+	esac
 	INFO="Password updated."
 		
 }
@@ -321,7 +348,7 @@ function MENU_Install()
 		then
 			if [ $SELECTED = "Deb" ]
 			then sudo apt-get install openvpn
-			else sudo yum install 
+			else sudo yum install openvpn
 			fi
 			 INFO="OpenVPN is now installed."
 		else
@@ -331,11 +358,42 @@ function MENU_Install()
 	done
 
 }
+function MENU_TestPort()
+{
+	PORT=""
+	STATUS=""
+	CONN=""
+	MENU="tcp udp Back"
+	while true; do
+		CLS
+		PrintTopMenuInfo
+		echo "$(ChangeColor blue text)TEST OUTGOING PORTS$(ChangeColor white text)"
+		echo "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
+		echo "$(ChangeColor red text)Port: $CONN $PORT $STATUS$(ChangeColor white text)"
+		echo "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
+		select sel in $MENU;
+		do
+			if [ "$sel" = "Back" ] 
+			then return
+			fi
+
+			read -p "Enter port $sel 1-65535:" PORT
+			TestPortOut $PORT $sel
+			STATUS=$?
+			if [ $STATUS -eq 1 ]
+			then STATUS="Open"
+			else STATUS="Closed"
+			fi
+			CONN=$sel
+			break
+		done
+	done
+}
 ###########################################################################################
 ############################ MAIN MENU SELECTION ##########################################
 ###########################################################################################
 CLS
-MENU_ITEMS="Profile Connect Download Remove Install Credits Help Quit"
+MENU_ITEMS="Profile Connect Download Clean Ports Install Credits Help Quit"
 while true
 do
 	if [ $INFO = "" ]
@@ -358,7 +416,9 @@ do
 			;;
 			"Download") INFO=""; MENU_DownloadProfiles; break
 			;;
-			"Remove") INFO=""; ClearProfiles; break
+			"Clean") INFO=""; ClearProfiles; break
+			;;
+			"Ports") INFO=""; MENU_TestPort; break
 			;;
 			"Install") INFO=""; MENU_Install; break
 			;;
@@ -366,12 +426,11 @@ do
 			;;
 			"Help") INFO=""; MENU_Help; break
 			;;
-			"Quit") echo "Quiting Free VPN Connect..."; sleep 1; CLS; break 2
+			"Quit") echo "Quiting Free VPN Connect..."; CLS; break 2
 			;;
 			*) INFO="Wrong selection!"; break
 			;;
 		esac
 	done
 done
-
 
