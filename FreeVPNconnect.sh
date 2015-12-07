@@ -160,8 +160,8 @@ function TestPortOut()
 	Port="$1"
 	NC=""
 	if [ "$2" = "udp" ]
-	then netcat -z -u -v 127.0.0.1 $Port &> /dev/null; NC=$?
-	else netcat -z -v 127.0.0.1 $Port &> /dev/null; NC=$?
+	then netcat -z -u -v -q 2 -w 2 portquiz.net $Port &> /dev/null; NC=$?
+	else netcat -z -v -q 2 -w 2 portquiz.net $Port &> /dev/null; NC=$?
 	fi
 	
 	if [ $NC -eq 0 ]
@@ -376,13 +376,42 @@ function MENU_TestPort()
 			if [ "$sel" = "Back" ] 
 			then return
 			fi
-
-			read -p "Enter port $sel 1-65535:" PORT
-			TestPortOut $PORT $sel
-			STATUS=$?
-			if [ $STATUS -eq 1 ]
-			then STATUS="Open"
-			else STATUS="Closed"
+			read -p "Enter port $sel 1-65535 or range >from-to<: " PORT
+			IS_RANGE=$( echo $PORT | grep -c "-" )
+			
+			if [ $IS_RANGE -eq 1 ]
+			then
+				STATUS="range tested"
+				RANGE_STOP=${PORT##*-} # remove text before last '-'
+				RANGE_STOP=$(echo $RANGE_STOP | tr -d "-")
+				RANGE_START=${PORT%-*} # remove text after last '-'
+				RANGE_START=$(echo $RANGE_START | tr -d "-")
+				TIMEOUT=""
+				read -p "Enter timeout in seconds: " TIMEOUT
+				echo "Testing $sel ports from $RANGE_START to $RANGE_STOP with $TIMEOUT timeout ..."
+				i=$RANGE_START
+				
+				while [ $i -le $RANGE_STOP ]
+				do
+					TestPortOut $i $sel
+					S=$?
+					if [ $S -eq 1 ]
+					then S="$(ChangeColor green text)Port $sel $i Open$(ChangeColor white text)"
+					else S="$(ChangeColor red text)Port $sel $i Closed$(ChangeColor white text)"
+					fi
+					echo "$S"
+					i=$((i+1))
+				done
+				
+				read -p "Enter to continue"
+			else				
+				TestPortOut $PORT $sel
+				STATUS=$?
+				if [ $STATUS -eq 1 ]
+				then STATUS="$(ChangeColor green text)Open$(ChangeColor white text)"
+				else STATUS="Closed"
+				fi
+				
 			fi
 			CONN=$sel
 			break
