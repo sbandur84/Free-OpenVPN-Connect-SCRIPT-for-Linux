@@ -1,4 +1,4 @@
-# Free VPN Connect for Linux
+# Free OpenVPN Connect for Linux
 ## Easy connect to free OpenVPN services with FreeVPNconnect.sh bash script
 **Functions:**   
 * Check for OpenVPN instalation and install
