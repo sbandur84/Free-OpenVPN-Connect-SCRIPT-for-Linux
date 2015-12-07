@@ -4,6 +4,7 @@
 * Check for OpenVPN instalation and install
 * Download popular free VPN service profiles
 * Automatic password retreaval from web pages
+* Outbound port and port range tester – Firewall tester
 * Select downloaded free OpenVPN profile
 * Connect to selected profile   
 You can establish free VPN connections with nothing but this script from Terminal    
