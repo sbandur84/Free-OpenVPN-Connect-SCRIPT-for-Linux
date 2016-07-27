@@ -23,9 +23,7 @@ You can establish free VPN connections with nothing but this script from Termina
   * Supports P2P downloading (EURO1 and EURO2 servers) 
   * Multiple servers in diferent countries
   * Ports: TCP 80, TCP 443, UDP 53, UDP 25000    
-* [FreeVPN.me](http://freevpn.me/) Please [donate](http://freevpn.me/accounts/) to support this great free VPN service.  
-  * Supports P2P downloading   
-  * Ports: TCP 80, TCP 443, UDP 53, UDP 25000   
+* [FreeVPN.me](http://freevpn.me/) – REMOVED / Hard to read password from web page / Same server as VPNBook euro1 
 * [VPNkeys.com](https://www.vpnkeys.com/) Please [donate](https://www.vpnkeys.com/get-free-vpn-instantly/) to support this great free VPN service.  
   * Multiple servers in diferent countries  
   * Ports: TCP 80, TCP 443, UDP 53, UDP 25000   
