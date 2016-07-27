@@ -25,7 +25,7 @@ function CLS
 function PrintTopMenuInfo()
 {
 	echo "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
-	echo "––––––––––––––––––– Free VPN Connect for linux - MAIN MENU –––––––––––––––––––––"
+	echo "––––––––––––––––––----– Free VPN Connect for linux --------–––––––––––––––––––––"
 	echo "––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––"
 	echo "––––– Supported services: www.FreeVPN.me, www.VPNbook.com, www.VPNkeys.com –––––"
 	echo "––––––––––– Please donate to continue supporting free VPN services –––––––––––––"
