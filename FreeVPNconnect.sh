@@ -6,12 +6,9 @@ SELECTED_PROFILE=""
 PASSWORD=""
 USERNAME=""
 USER_BOOK="vpnbook"
-USER_ME="freevpnme"
 USER_KEYS="vpnkeys"
 URL_VPNBOOK="http://www.vpnbook.com/freevpn"
 URL_VPNBOOK_PROFILES="http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-Euro1.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-Euro2.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-US2.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-CA1.zip http://www.vpnbook.com/free-openvpn-account/VPNBook.com-OpenVPN-DE1.zip"
-URL_FREEVPNME="http://freevpn.me/accounts/"
-URL_FREEVPNME_PROFILES="http://freevpn.me/OpenVPN-Certificate-Bundle-Server1.zip"
 URL_VPNKEYS="https://www.vpnkeys.com/get-free-vpn-instantly/"
 URL_VPNKEYS_PROFILES="https://www.vpnkeys.com/us1.zip https://www.vpnkeys.com/uk1.zip https://www.vpnkeys.com/nl1.zip https://www.vpnkeys.com/sg1.zip"
 IMPORTANT="IMPORTANT! Press CTRL+C to end when in connection!"
@@ -200,9 +197,6 @@ function MENU_SelectProfile()
 	VPNBOOK=$(echo $SELECTED_PROFILE | grep -c "vpnbook")
 	if [ $VPNBOOK = "1" ]; then PROVIDER="vpnbook";  fi
 
-	VPNME=$(echo $SELECTED_PROFILE | grep -c "FreeVPN")
-	if [ $VPNME = "1" ]; then PROVIDER="freevpnme";  fi
-
 	VPNKEY=$(echo $SELECTED_PROFILE | grep -c "vpnkeys")
 	if [ $VPNKEY = "1" ]; then PROVIDER="vpnkeys";  fi
 
@@ -212,8 +206,6 @@ function MENU_SelectProfile()
 	# update password for selected profile
 	case "$PROVIDER" in
 		"vpnbook") UpdatePassword $URL_VPNBOOK $USER_BOOK; break
-		;;
-		"freevpnme") UpdatePassword $URL_FREEVPNME $USER_ME; break
 		;;
 		"vpnkeys") UpdatePassword $URL_VPNKEYS $USER_KEYS; break
 		;;
@@ -228,7 +220,7 @@ function MENU_DownloadProfiles()
 {
 	SERVICE_PROFILES=""
 	SERVICE=""
-	SERVICES="VPNbook.com FreeVPN.me VPNkeys.com"
+	SERVICES="VPNbook.com VPNkeys.com"
 	CLS
 	PrintTopMenuInfo
 	echo "$(ChangeColor orange text)DOWNLOAD VPN PROFILES$(ChangeColor white text)"
@@ -238,8 +230,6 @@ function MENU_DownloadProfiles()
 		SERVICE=$opt
 		case $opt in
 			"VPNbook.com") SERVICE_PROFILES=$URL_VPNBOOK_PROFILES; break
-			;;
-			"FreeVPN.me") SERVICE_PROFILES=$URL_FREEVPNME_PROFILES; break
 			;;
 			"VPNkeys.com") SERVICE_PROFILES=$URL_VPNKEYS_PROFILES; break
 			;;
