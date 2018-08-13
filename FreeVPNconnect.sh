@@ -110,23 +110,19 @@ function UpdatePassword()
 	## SCRIPT FOR GETTING PASSWORD FROM VPNBOOK - FREE VPN
 	local SAVE_TO="$DIR/$PROFILES_DIR/$PASSWORD_FILE"
 	
-	PASSWORD_LINE_PHARSE="Password"
 	
-	## get page with password | find line with pass | get last line | remove white spaces   
-	local PWD=$(wget -T 2 -q -O - "$@" "$url" | grep -n "$PASSWORD_LINE_PHARSE" | tail -1 | tr -d ' ')
+	URL="https://www.vpnbook.com/freevpn"
+	PWD_IMG=$(wget -T 2 -q -O - "$@" "$URL" | grep -n Password | tail -1 | tr -d ' ' | tr -d '"' )
+	PWD_IMG=${PWD_IMG%/*}
+	PWD_IMG=${PWD_IMG%/*}
+	PWD_IMG=${PWD_IMG##*<}
+	PWD_IMG=${PWD_IMG#*=}
 
-	### for PWD we get: 154: <li>Password:<strong>fra4agaV</strong></li>
-	local PWD=${PWD%<*} # remove text after last '<'
-	# repeat only if extracting vpnbook password
-	if [ "$USERNAME" = "vpnbook" ]
-	then local PWD=${PWD%<*} 
-	fi
-	local PWD=${PWD##*>} # remove text before last '>'
 
-	#remove Password: from string in case of vpnkeys service	
-	if [ "$USERNAME" = "vpnkeys" ]
-	then local PWD=${PWD##*:}
-	fi
+	PWD_IMG="https://www.vpnbook.com/"$PWD_IMG
+	wget "$PWD_IMG" --output-document=pwd.png
+	local PWD=$(gocr pwd.png)
+
 	
 	PASSWORD=$PWD
 	if [ -f $SAVE_TO ]
