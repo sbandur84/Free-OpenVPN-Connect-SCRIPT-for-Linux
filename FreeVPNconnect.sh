@@ -104,26 +104,38 @@ function ClearProfiles()
 #USAGE: UpdatePassword $URL_ $USER_
 function UpdatePassword()
 {
+	## SCRIPT FOR GETTING PASSWORD FROM VPNBOOK - FREE VPN WEBSITE
+	
+	# LOAD ARGUMETS
 	URL=$1
 	USERNAME=$2
+	
+	# SET CURRENT DIR
 	local DIR=$(pwd)
-	## SCRIPT FOR GETTING PASSWORD FROM VPNBOOK - FREE VPN
+	
+	## SET PASSWORD DIR
 	local SAVE_TO="$DIR/$PROFILES_DIR/$PASSWORD_FILE"
 	
-	
 	URL="https://www.vpnbook.com/freevpn"
+	## LOAD PAGE AND SELECT LINE WITH PASSWORD THEN REMOVE WHITESPACES AND "
 	PWD_IMG=$(wget -T 2 -q -O - "$@" "$URL" | grep -n Password | tail -1 | tr -d ' ' | tr -d '"' )
+	## REMOVE EVERYTHING AFTER LAST "/"
 	PWD_IMG=${PWD_IMG%/*}
+	## REMOVE EVERYTHING AFTER LAST "/"
 	PWD_IMG=${PWD_IMG%/*}
+	## REMOVE EVERYTHING BEFORE LAST "<"
 	PWD_IMG=${PWD_IMG##*<}
+	## REMOVE EVERYTHING BEFORE LAST "="
 	PWD_IMG=${PWD_IMG#*=}
 
-
+	# NOW SET IMAGE WITH PASSWORD URL
 	PWD_IMG="https://www.vpnbook.com/"$PWD_IMG
+	# DOWNLOAD IMAGE WITH PASSWORD
 	wget "$PWD_IMG" --output-document=pwd.png
+	# READ PASSWORD WITH OCR
 	local PWD=$(gocr pwd.png)
 
-	
+	# SAVE PASSWORD AND USERNAME TO FILE
 	PASSWORD=$PWD
 	if [ -f $SAVE_TO ]
 	then rm $SAVE_TO; 
