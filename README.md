@@ -14,7 +14,7 @@ You can establish free VPN connections with nothing but this script from Termina
 * Extract zip in custom folder 
 * Open terminal  
 * Navigate to extracted folder "Free-VPN-Connect-for-Linux-v1.0"  
-* Make FreeVPNconnection.sh executable (chmod +x FreeVPNconnect.sh)     
+* Make FreeVPNconnect.sh executable (chmod +x FreeVPNconnect.sh)     
 * Run script from Terminal (./FreeVPNconnect.sh)   
 **You must be administrator to establish connection to VPN**   
 
