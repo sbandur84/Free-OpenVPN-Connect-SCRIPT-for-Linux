@@ -3,10 +3,10 @@
 **Functions:**   
 * Check for OpenVPN installation and install
 * Download popular free VPN service profiles
-* Automatic password retreaval from web pages
+* Automatic password retrieval from web pages
 * Outbound port and port range tester – Firewall tester – with help of PORTQUIZ.NET
 * Select downloaded free OpenVPN profile
-* Connect to selected profile   
+* Connect to the selected profile   
 You can establish free VPN connections with nothing but this script from Terminal    
 
 # Instalation
@@ -30,14 +30,14 @@ You can establish free VPN connections with nothing but this script from Termina
 
 # Supported OS   
 * Debian based Linux   
-* RPM based distributions (not tested)   
-This is executable bash script. You can try run it modified or as is on other Unix-like operating systems. (Linux/BSD/MacOSX/Solaris)    
+* RPM-based distributions (not tested)   
+This is an executable bash script. You can try to run it modified or as is on other Unix-like operating systems. (Linux/BSD/MacOSX/Solaris)    
 
 # Feedback   
-Send me email if:   
+Send me an email if:   
 * You find any problems with this script.   
-* For addition of other free OpenVPN services.   
-* You need similar script.   
+* For the addition of other free OpenVPN services.   
+* You need a similar script.   
 Email:seba.bandur@gmail.com   
 
 # Licence   
