@@ -9,7 +9,7 @@
 * Connect to selected profile   
 You can establish free VPN connections with nothing but this script from Terminal    
 
-# Instalation
+# Installation
 * Download latest release   
 * Extract zip in custom folder 
 * Open terminal  
